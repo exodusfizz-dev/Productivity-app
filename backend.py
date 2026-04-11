@@ -13,9 +13,13 @@ class BackEnd:
         self.event_bus = event_bus
         self.time = time.time()
         self.goals = []
+        self.inactive_goals = []
 
         self.event_bus.subscribe("user_add_goal", self._save_goal)
         self.event_bus.subscribe("reset_goals", self._reset_goals)
+
+        self.event_bus.subscribe("user_add_inactive_goal", self._save_inactive_goal)
+        self.event_bus.subscribe("reset_inactive_goals", self._reset_inactive_goals)
 
     def step(self):
         """Called repeatedly to check if day/week has passed"""
@@ -57,5 +61,24 @@ class BackEnd:
         self.goals = []
         print(f"[Backend] Goals reset: {data}")
         self.event_bus.emit("goals_reset", {
-            "message": "Goals have been reset successfully."
+            "message": "Goals have been reset successfully.",
+            "goals": list(self.goals)
+        })
+
+    def _save_inactive_goal(self, data):
+        """Saves an inactive goal"""
+        self.inactive_goals.append(data["goal"])
+        print(f"[Backend] Inactive goal saved: {data}")
+        self.event_bus.emit("inactive_goal_saved", {
+            "message": f"Inactive goal saved: {data['goal']}",
+            "inactive_goals": list(self.inactive_goals)
+        })
+
+    def _reset_inactive_goals(self, data):
+        """Resets inactive goals"""
+        self.inactive_goals = []
+        print(f"[Backend] Inactive goals reset: {data}")
+        self.event_bus.emit("inactive_goals_reset", {
+            "message": "Inactive goals have been reset.",
+            "inactive_goals": list(self.inactive_goals)
         })
