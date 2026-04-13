@@ -2,7 +2,8 @@
 
 import tkinter as tk
 from tkinter import messagebox
-from interface.inputs import InputDialog
+from .inputs import InputDialog
+from .image_manager import TkinterImageManager
 from pathlib import Path
 
 
@@ -15,6 +16,9 @@ class FrontEnd:
 
 
     def __init__(self, event_bus):
+        self.image_manager = TkinterImageManager(
+            image_dir=Path(__file__).resolve().parent / "assets"
+            )
         self.event_bus = event_bus
         self.window = tk.Tk()
         self.window.title("Productivity App")
@@ -29,40 +33,18 @@ class FrontEnd:
 
         self.goals_frame = tk.Frame(self.window)
 
-
-        assets_dir = Path(__file__).resolve().parent / "assets"
-        eye_path = assets_dir / "eye.png"
-        eye_slash_path = assets_dir / "eye-slash.png"
-        self.eye_img = None
-        self.eye_slash_img = None
-        try:
-            if eye_path.exists():
-                self.eye_img = tk.PhotoImage(file=str(eye_path))
-            if eye_slash_path.exists():
-                self.eye_slash_img = tk.PhotoImage(file=str(eye_slash_path))
-        except tk.TclError as e:
-            print(f"[Frontend] Warning: could not load icon images: {e}")
+        self.eye_img = self.image_manager.get_image("eye")
+        self.eye_slash_img = self.image_manager.get_image("eye-slash")
 
 
-        if self.eye_img:
-            self.goals_header = tk.Label(
-                self.goals_frame,
-                text=" Current goals",
-                image=self.eye_img,
-                compound="left",
-                font=(self.FONT[0], self.FONT[1], "bold"),
-                anchor="w"
+        self.goals_header = tk.Label(
+            self.goals_frame,
+            text=" Current goals",
+            image=self.eye_img,
+            compound="left",
+            font=(self.FONT[0], self.FONT[1], "bold"),
+            anchor="w"
             )
-        else:
-            self.goals_header_icon_visible = "👁"
-            self.goals_header = tk.Label(
-                self.goals_frame,
-                text=f"{self.goals_header_icon_visible} Current goals",
-                font=(self.FONT[0], self.FONT[1], "bold"),
-                anchor="w"
-            )
-        if not self.eye_slash_img:
-            self.goals_header_icon_hidden = "🙈"
 
         self.goals_label = tk.Label(
             self.goals_frame,
@@ -155,7 +137,7 @@ class FrontEnd:
         if goals:
             self.goals_label.config(text=f"Current goals:\n{goals}")
         else:
-            self.goals_label.config(text="Your goals will appear here. Recommend setting 3-5 goals per week.")
+            self.goals_label.config(text=self.NO_GOALS_TEXT)
 
     def _on_successful_save_inactive_goal(self, data):
         """Called when backend emits 'inactive_goal_saved'."""
@@ -225,12 +207,8 @@ class FrontEnd:
 
             if self.eye_slash_img:
                 self.goals_header.config(image=self.eye_slash_img)
-            else:
-                self.goals_header.config(text=f"{self.goals_header_icon_hidden} Current goals")
         else:
             self.goals_label.pack(anchor="w", pady=(self.PADY, 0))
 
             if self.eye_img:
                 self.goals_header.config(image=self.eye_img)
-            else:
-                self.goals_header.config(text=f"{self.goals_header_icon_visible} Current goals")
