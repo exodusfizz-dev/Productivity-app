@@ -1,10 +1,9 @@
-## Productivity app  
-As the name suggests, this app looks to function similarly to the growing trend of productivity related apps.  
-I have created this to fit a very narrow niche that I thought of to help myself.  
-This is on github to document my learning of how to create an app, as proof of my frontend and backend capabilities, and so others who may want to use it can.  
+## Productivity App
+This app is a lightweight, experimental productivity tool built for a specific workflow.
 
+I’m sharing it on GitHub to document my learning journey, demonstrate both frontend and backend development, and make it available for anyone who finds it useful.
 
-This app aims to:  
-- Have a fully functional frontend  
-- Integrate into macOS using the toolbar (later windowsOS too)  
-- Assist individuals to set weekly goals and rotate the aims that these goals are related to.
+### Goals
+- Build a clean, fully functional frontend
+- Integrate with the macOS menu bar (with Windows support planned later)
+- Help users set weekly goals and rotate focus areas over time
