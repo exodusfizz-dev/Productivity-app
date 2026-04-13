@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "productivity-app"
+version = "0.1.0"
+description = "A tkinter-based productivity goal tracking application with event-driven architecture"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Eric"}]
+dependencies = []
+
+
+[project.scripts]
+productivity-app = "productivity_app.main:run"
+
+[project.urls]
+Repository = "https://github.com/erictunn/Productivity-app"
+
+[tool.setuptools.package-data]
+productivity_app = ["interface/assets/*"]

@@ -4,9 +4,9 @@
 
 import time
 import threading
-from infrastructure.events import EventBus
-from interface.frontend import FrontEnd
-from services.app_service import BackEnd
+from productivity_app.infrastructure.events import EventBus
+from productivity_app.interface.frontend import FrontEnd
+from productivity_app.services.app_service import BackEnd
 
 
 class Main:
@@ -33,6 +33,11 @@ class Main:
             time.sleep(1)
 
 
-if __name__ == "__main__":
+def run():
+    """Entry point for console script (pyproject.toml)"""
     main = Main()
     main.main()
+
+
+if __name__ == "__main__":
+    run()
