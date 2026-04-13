@@ -55,6 +55,8 @@ class FrontEnd:
                 font=("Arial", 12, "bold"),
                 anchor="w"
             )
+        if not self.eye_slash_img:
+            self.goals_header_icon_hidden = "🙈"
 
         self.goals_label = tk.Label(
             self.goals_frame,
