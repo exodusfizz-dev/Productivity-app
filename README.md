@@ -6,4 +6,5 @@ This is on github to document my learning of how to create an app, as proof of m
 
 This app aims to:  
 - Have a fully functional frontend  
+- Integrate into macOS using the toolbar (later windowsOS too)  
 - Assist individuals to set weekly goals and rotate the aims that these goals are related to.

@@ -7,16 +7,23 @@ from pathlib import Path
 
 
 class FrontEnd:
+    FONT = ("Arial", 12)
+    PADY = 10
+    PADX = 20
+    NO_GOALS_TEXT = "Your goals will appear here. Recommend setting 3-5 goals per week."
+
+
+
     def __init__(self, event_bus):
         self.event_bus = event_bus
         self.window = tk.Tk()
         self.window.title("Productivity App")
-        self.window.geometry("600x400")
+        self.window.geometry("800x600")
 
         self.status_label = tk.Label(
             self.window,
             text="Status: Waiting...",
-            font=("Arial", 12),
+            font=self.FONT,
             wraplength=500
         )
 
@@ -43,16 +50,15 @@ class FrontEnd:
                 text=" Current goals",
                 image=self.eye_img,
                 compound="left",
-                font=("Arial", 12, "bold"),
+                font=(self.FONT[0], self.FONT[1], "bold"),
                 anchor="w"
             )
         else:
             self.goals_header_icon_visible = "👁"
-            self.goals_header_icon_hidden = "🙈"
             self.goals_header = tk.Label(
                 self.goals_frame,
                 text=f"{self.goals_header_icon_visible} Current goals",
-                font=("Arial", 12, "bold"),
+                font=(self.FONT[0], self.FONT[1], "bold"),
                 anchor="w"
             )
         if not self.eye_slash_img:
@@ -60,8 +66,8 @@ class FrontEnd:
 
         self.goals_label = tk.Label(
             self.goals_frame,
-            text="Your goals will appear here. Recommend setting 3-5 goals per week.",
-            font=("Arial", 12),
+            text=self.NO_GOALS_TEXT,
+            font=self.FONT,
             wraplength=500,
             justify="left"
         )
@@ -70,54 +76,54 @@ class FrontEnd:
             self.window,
             text="Add goal",
             command=self._on_add_goal,
-            font=("Arial", 11),
-            padx=20,
-            pady=10
+            font=self.FONT,
+            padx=self.PADX,
+            pady=self.PADY
         )
         self.reset_goals = tk.Button(
             self.window,
             text="Reset goals",
             command=self._on_reset_goals,
-            font=("Arial", 11),
-            padx=20,
-            pady=10
+            font=self.FONT,
+            padx=self.PADX,
+            pady=self.PADY
         )
 
         self.add_inactive_goal = tk.Button(
             self.window,
             text="Add inactive goal",
             command=self._on_add_inactive_goal,
-            font=("Arial", 11),
-            padx=20,
-            pady=10
+            font=self.FONT,
+            padx=self.PADX,
+            pady=self.PADY
         )
         self.reset_inactive_goals = tk.Button(
             self.window,
             text="Reset inactive goals",
             command=self._on_reset_inactive_goals,
-            font=("Arial", 11),
-            padx=20,
-            pady=10
+            font=self.FONT,
+            padx=self.PADX,
+            pady=self.PADY
         )
 
-        self.status_label.pack(pady=10)
-        self.add_goal.pack(pady=6)
-        self.reset_goals.pack(pady=6)
-        self.add_inactive_goal.pack(pady=6)
-        self.reset_inactive_goals.pack(pady=6)
+        self.status_label.pack(pady=self.PADY)
+        self.add_goal.pack(pady=self.PADY)
+        self.reset_goals.pack(pady=self.PADY)
+        self.add_inactive_goal.pack(pady=self.PADY)
+        self.reset_inactive_goals.pack(pady=self.PADY)
 
         self.goals_header.pack(anchor="w")
-        self.goals_label.pack(anchor="w", pady=(6, 0))
-        self.goals_frame.pack(pady=12, fill="x")
+        self.goals_label.pack(anchor="w", pady=(self.PADY, 0))
+        self.goals_frame.pack(pady=self.PADY, fill="x")
 
         self.inactive_goals_label = tk.Label(
             self.window,
             text="Inactive goals: None",
-            font=("Arial", 11),
+            font=self.FONT,
             wraplength=500,
             justify="left"
         )
-        self.inactive_goals_label.pack(pady=8)
+        self.inactive_goals_label.pack(pady=self.PADY)
 
 
         self.goals_header.bind("<Button-1>", lambda e: self.toggle_goals_visibility())
@@ -222,7 +228,7 @@ class FrontEnd:
             else:
                 self.goals_header.config(text=f"{self.goals_header_icon_hidden} Current goals")
         else:
-            self.goals_label.pack(anchor="w", pady=(6, 0))
+            self.goals_label.pack(anchor="w", pady=(self.PADY, 0))
 
             if self.eye_img:
                 self.goals_header.config(image=self.eye_img)
